@@ -6,7 +6,13 @@
 [![Codecov test coverage](https://codecov.io/gh/thatoneguy006/tidylandmark/graph/badge.svg)](https://app.codecov.io/gh/thatoneguy006/tidylandmark)
 <!-- badges: end -->
 
-The goal of tidylandmark is to ...
+Provides a tidy framework for landmark survival analysis, facilitating the 
+construction of landmark-specific risk sets, incorporation of longitudinal 
+covariates, and estimation of associations with time-to-event outcomes. 
+Supports covariate estimation using last observation carried forward (LOCF) or 
+linear mixed-effects models (LME), alongside Cox proportional hazards and 
+Fine-Gray competing risks regression. Offers a consistent and reproducible 
+workflow for conducting analyses across multiple landmark times.
 
 ## Installation
 
