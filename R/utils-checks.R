@@ -191,8 +191,8 @@ lm_check_landmarks <- function(x, arg = "landmarks", call = rlang::caller_env())
   sort(as.double(x))
 }
 
-#' Validate user-supplied horizon. 
-#' 
+#' Validate user-supplied horizon.
+#'
 #' Will change to allow multiple horizons in a future update.
 #' @noRd
 lm_check_horizon <- function(x, arg = "horizon", call = rlang::caller_env()) {
@@ -212,4 +212,26 @@ lm_check_horizon <- function(x, arg = "horizon", call = rlang::caller_env()) {
     )
   }
   as.double(x)
+}
+
+#' Validate a single TRUE/FALSE argument (e.g. `progress`).
+#'
+#' `isTRUE()`/`isFALSE()` accept only a length-1, non-missing logical, so
+#' `NA`, `c(TRUE, FALSE)`, `1` and `"yes"` all fail here instead of
+#' reaching an `if ()` later.
+#' @noRd
+lm_check_flag <- function(x, arg, call = rlang::caller_env()) {
+  if (!isTRUE(x) && !isFALSE(x)) {
+    cli::cli_abort(
+      "{.arg {arg}} must be {.code TRUE} or {.code FALSE}.",
+      call = call
+    )
+  }
+  invisible(x)
+}
+
+#' Turn a `progress` flag into purrr's `.progress` argument.
+#' @noRd
+lm_progress_arg <- function(progress, label) {
+  if (progress) label else FALSE
 }
