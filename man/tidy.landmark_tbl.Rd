@@ -4,10 +4,16 @@
 \alias{tidy.landmark_tbl}
 \title{Tidy a landmark dataset for additional summarization}
 \usage{
-\method{tidy}{landmark_tbl}(x, ...)
+\method{tidy}{landmark_tbl}(x, status_labels = FALSE, show_proportion = FALSE, ...)
 }
 \arguments{
 \item{x}{A \code{landmark_tbl}, as returned by \code{\link[=landmark_data]{landmark_data()}}.}
+
+\item{status_labels}{Should status labels be shown in tibble if \code{status}
+was provided as factor? Default FALSE.}
+
+\item{show_proportion}{Indicate proportion of full cohort at risk? Default
+FALSE.}
 
 \item{...}{Ignored.}
 }
