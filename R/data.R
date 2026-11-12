@@ -2,8 +2,8 @@
 #' Patients
 #'
 #' Adapted from [survival::pbcseq], this dataset contains baseline and outcome
-#' status data among randomized patients in the Mayo Clinic Primary Biliary
-#' Cirrhosis trial. Accompanies [pbcseq_visits] which contains follow-up visit
+#' status data among randomized patients in the Mayo Clinic primary biliary
+#' cirrhosis trial. Accompanies [pbcseq_visits] which contains follow-up visit
 #' data preceding `status`.
 #'
 #' @format
@@ -31,7 +31,7 @@
 #'
 #' Adapted from [survival::pbcseq], this dataset contains follow-up visit
 #' data preceding final study status among randomized patients in the Mayo
-#' Clinic Primary Biliary Cirrhosis trial. Accompanies [pbcseq_baseline] which
+#' Clinic primary biliary cirrhosis trial. Accompanies [pbcseq_baseline] which
 #' contains baseline and outcome status data.
 #'
 #' @format

@@ -38,7 +38,7 @@ pbcseq_visits
 \description{
 Adapted from \link[survival:pbcseq]{survival::pbcseq}, this dataset contains follow-up visit
 data preceding final study status among randomized patients in the Mayo
-Clinic Primary Biliary Cirrhosis trial. Accompanies \link{pbcseq_baseline} which
+Clinic primary biliary cirrhosis trial. Accompanies \link{pbcseq_baseline} which
 contains baseline and outcome status data.
 }
 \keyword{datasets}

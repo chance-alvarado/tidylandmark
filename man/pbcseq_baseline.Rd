@@ -27,8 +27,8 @@ pbcseq_baseline
 }
 \description{
 Adapted from \link[survival:pbcseq]{survival::pbcseq}, this dataset contains baseline and outcome
-status data among randomized patients in the Mayo Clinic Primary Biliary
-Cirrhosis trial. Accompanies \link{pbcseq_visits} which contains follow-up visit
+status data among randomized patients in the Mayo Clinic primary biliary
+cirrhosis trial. Accompanies \link{pbcseq_visits} which contains follow-up visit
 data preceding \code{status}.
 }
 \keyword{datasets}
