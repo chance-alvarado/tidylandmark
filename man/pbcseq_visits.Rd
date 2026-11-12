@@ -24,7 +24,6 @@ edema despite diuretic therapy}
 \item{platelet}{platelet count}
 \item{protime}{standardised blood clotting time}
 \item{stage}{histologic stage of disease (needs biopsy)}
-...
 }
 }
 \source{

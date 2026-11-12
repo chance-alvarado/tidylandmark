@@ -15,7 +15,6 @@
 #'   \item{trt}{1/2 for D-penicillmain, placebo}
 #'   \item{futime}{Time at `status`}
 #'   \item{status}{status at endpoint, 0/1/2 for censored, transplant, dead}
-#'   ...
 #' }
 #'
 #' @usage pbcseq_baseline
@@ -54,7 +53,6 @@
 #'   \item{platelet}{platelet count}
 #'   \item{protime}{standardised blood clotting time}
 #'   \item{stage}{histologic stage of disease (needs biopsy)}
-#'   ...
 #' }
 #'
 #' @usage pbcseq_visits

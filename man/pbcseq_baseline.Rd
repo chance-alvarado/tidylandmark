@@ -14,7 +14,6 @@ A data frame with 312 observations of six variables:
 \item{trt}{1/2 for D-penicillmain, placebo}
 \item{futime}{Time at \code{status}}
 \item{status}{status at endpoint, 0/1/2 for censored, transplant, dead}
-...
 }
 }
 \source{
