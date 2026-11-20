@@ -14,3 +14,7 @@
 #' @importFrom rlang %||%
 ## usethis namespace: end
 NULL
+
+# `closest()` only exists inside dplyr::join_by(), where it is interpreted
+# rather than called, so R CMD check can't find a definition for it.
+utils::globalVariables("closest")

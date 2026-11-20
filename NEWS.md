@@ -4,3 +4,16 @@
 
 - Implemented `landmark_data()` which constructs landmark risk sets with an 
 optional user-supplied time horizon.
+- Implemented `add_landmark_covariates()`, which attaches pre-landmark values
+of longitudinal variables to each subject-landmark row. Variables selected with
+`locf` use the last non-missing value (optionally within a `lookback` window);
+variables selected with `lme` use subject-specific predictions from a linear
+mixed-effects model fitted separately for each variable and landmark, with
+options in `lme_args` (random slope, adjustment terms, `lmerControl()`).
+
+## Minor Changes
+
+- Added `print()`, `summary()`, and `tidy()` methods to examine output from 
+`landmark_data()`.
+- Implemented `landmark_covariates()` and `landmark_lme_fits()` to inspect and 
+audit both LOCF and LME fits.

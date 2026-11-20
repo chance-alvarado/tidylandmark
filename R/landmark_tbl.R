@@ -109,7 +109,42 @@ lm_header <- function(x, cfg) {
       paste0(names(cfg$status_labels), " = ", cfg$status_labels, collapse = ", ")
     ))
   }
+  cov_line <- lm_covariate_line(cfg$covariates, names(x))
+  if (!is.null(cov_line)) {
+    lines <- c(lines, cov_line)
+  }
   lines
+}
+
+#' Header line describing derived covariates, e.g.
+#' "Derived covariates: bili (LOCF), alb_prior (LOCF of albumin, t < s)"
+#'
+#' Only columns still present in the data are listed.
+#' @noRd
+lm_covariate_line <- function(info, present) {
+  if (is.null(info)) {
+    return(NULL)
+  }
+  info <- info[info$column %in% present, , drop = FALSE]
+  if (nrow(info) == 0L) {
+    return(NULL)
+  }
+  # Records missing a newer field (e.g. a hand-edited config) get a default.
+  field <- function(name, default) info[[name]] %||% rep(default, nrow(info))
+  lookback     <- field("lookback", NA_real_)
+  random_slope <- field("random_slope", NA)
+  adjust       <- field("adjust", NA_character_)
+
+  detail <- toupper(info$method)
+  detail <- ifelse(info$column == info$source, detail, paste0(detail, " of ", info$source))
+  detail <- ifelse(info$include_at_landmark, detail, paste0(detail, ", t < s"))
+  detail <- ifelse(is.na(lookback), detail, paste0(detail, ", lookback ", lookback))
+  detail <- ifelse(random_slope %in% TRUE, paste0(detail, ", random slope"), detail)
+  detail <- ifelse(is.na(adjust), detail, paste0(detail, ", adjusted ", adjust))
+  paste0(
+    "Derived covariates: ",
+    paste0(info$column, " (", detail, ")", collapse = ", ")
+  )
 }
 
 #' Print a landmark dataset
