@@ -1,4 +1,4 @@
-#' Title
+#' Two-stage bootstrap procedure for
 #'
 #' @param baseline
 #' @param pipeline
@@ -11,11 +11,57 @@
 bootstrap_landmark <- function(
   baseline,
   pipeline,
+
   exponentiate = FALSE,
-  n_boot = 10
+  conf.int = FALSE,
+  conf.level = 0.95,
+
+  n_boot = 200
   ){
 
-  map(
+  # Get fit in complete data
+  fit_full <- baseline |>
+
+    # Call user-defined pipeline on data
+    pipeline() |>
+
+    # Use tidy.landmark_fit to get model fits
+    tidy(
+      exponentiate = exponentiate,
+      conf.int = conf.int,
+      conf.level = conf.level
+    ) |>
+
+    # Select relevant variables
+    dplyr::select(
+
+      # Fit invariant measures
+      .landmark,
+      .model,
+      .cause,
+      term,
+
+      # Full fit measures
+      estimate,
+      tidyr::any_of(c('conf.low', 'conf.high')),
+      p.value,
+      .fit_status,
+      .message
+    ) |>
+
+    dplyr::rename_with(
+      .cols = c(
+        estimate,
+        tidyr::any_of(c('conf.low', 'conf.high')),
+        p.value,
+        .fit_status,
+        .message
+      ),
+      .f = \(col) paste0(col, '__full')
+    )
+
+  # Iterate and get bootstrap samples and fits
+  fit_boot <- purrr::map(
 
     # Iterate over bootstrap indices
     1:n_boot,
@@ -26,7 +72,7 @@ bootstrap_landmark <- function(
       id_sample <-
 
         # Sample available IDs at each landmark
-        purrr:::map(
+        purrr::map(
           attributes(baseline)$landmark_config$id_list,
           \(ids){
             sample(
@@ -38,14 +84,14 @@ bootstrap_landmark <- function(
         ) |>
 
         # Create tibble of sampled IDs at landmark
-        tibble(
+        tibble::tibble(
           .id = _,
           .landmark = attributes(baseline)$landmark_config$landmarks,
         ) |>
-        tidyr::unnest(cols = c(.id)) |>
+        tidyr::unnest(cols = .id) |>
 
         # Create new bootstrap ID (so  latter LME does not infer incorrect grouping)
-        dplyr::mutate(.boot_id = 1:n()) |>
+        dplyr::mutate(.boot_id = 1:dplyr::n()) |>
 
         # Join to formatted landmark_tbl
         dplyr::left_join(
@@ -70,28 +116,32 @@ bootstrap_landmark <- function(
         # Use tidy.landmark_fit to get model fits
         tidy(exponentiate = exponentiate) |>
 
-        # Select restricted columns of relevance
+        # Select relevant variables
         dplyr::select(
-          .landmark, term, estimate
+          .landmark,
+          term,
+          estimate,
+          .fit_status,
+          .message
         )
 
-    }
-  )
+    } |>
+
+      # Do not print messages to console for each bootstrap fit
+      suppressMessages()
+
+  ) |>
+
+    # Join bootstrap fits and aggregate
+    dplyr::bind_rows() |>
+
+    dplyr::summarize(
+      estimates__boot = list(estimate),
+      .fit_status__boot = list(.fit_status),
+      .message__boot = list(.message),
+      .by = c(.landmark, term)
+    )
+
+  fit_boot
+
 }
-
-bootstrap_landmark(
-
-  baseline = pbc_lm_baseline,
-
-  pipeline = \(data) data |>
-
-    add_landmark_covariates(
-      pbcseq_visits, id, day,
-      locf = albumin, lme = bili, lme_args = list(adjust = ~ age)
-    ) |>
-
-    fit_landmark(~ age + log(bili) + albumin, cause = 2)
-
-)
-
-
