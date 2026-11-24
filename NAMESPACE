@@ -13,8 +13,6 @@ export(landmark_data)
 export(landmark_lme_fits)
 export(tidy)
 importFrom(generics,tidy)
-importFrom(rlang,
-  "%||%",
-  .data,
-  .env
-)
+importFrom(rlang,"%||%")
+importFrom(rlang,.data)
+importFrom(rlang,.env)
